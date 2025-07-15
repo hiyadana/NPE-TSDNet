@@ -1,0 +1,2 @@
+model_checkpoint_path: "...\\model\\g_o_model.ckpt"
+all_model_checkpoint_paths: "...\\model\\g_o_model.ckpt"
