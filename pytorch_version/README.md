@@ -103,6 +103,29 @@ Python 및 PyTorch 환경이 필요하다. 다음 라이브러리들을 설치�
     python pytorch_version/test.py
     ```
 
-### 5. 성능 평가
+### 5. 성능 평가 (Python 버전)
 
--   성능 평가는 기존과 동일하게 MATLAB을 사용한다. `QualityEvaluation/` 폴더의 `DiffNufQe.m` 스크립트를 열어, 평가할 이미지 경로를 PyTorch 결과물 경로(`Ours_PyTorch`)로 수정한 후 실행한다.
+`QualityEvaluation_Python/` 폴더는 MATLAB 라이선스 없이 성능 평가를 수행할 수 있도록 `QualityEvaluation/`의 MATLAB 스크립트들을 Python으로 변환한 버전이다. PyTorch 모델의 결과물을 평가하는 데 사용할 수 있다.
+
+-   **사전 요구사항**: `scikit-image`, `pandas`, `openpyxl` 라이브러리가 추가로 필요하다.
+    ```bash
+    pip install scikit-image pandas openpyxl
+    ```
+-   **실행 방법**: `diff_nuf_qe.py` 스크립트를 열어 `method_arg` 변수를 PyTorch 테스트 결과가 저장된 폴더 이름(예: `Ours_PyTorch`)으로 변경한다. 그 후, 스크립트를 실행한다.
+    ```bash
+    # 1. diff_nuf_qe.py 파일 수정:
+    #    method_arg = 'Ours_PyTorch'
+
+    # 2. 스크립트 실행:
+    cd QualityEvaluation_Python
+    python diff_nuf_qe.py
+    ```
+
+#### Python 평가 스크립트 상세
+
+-   `diff_nuf_qe.py`: MATLAB의 `DiffNufQe.m`에 해당하는 메인 스크립트. 지정된 폴더의 모든 결과에 대해 아래의 모든 품질 지표를 일괄 계산하고 Excel 파일로 저장한다.
+-   `psnr.py`: 두 이미지 간의 PSNR(최대 신호 대 잡음비)과 RMSE(평균 제곱근 오차)를 계산한다.
+-   `coarseness.py`: 이미지의 거칠기(조잡도)를 계산하여 노이즈 수준을 평가한다.
+-   `ln.py`: 이미지의 저주파 비균일성을 평가한다.
+-   `scrg.py`: 특정 목표(target)와 주변 배경(clutter) 간의 SCR(신호 대 잡음비)을 계산하여 목표 식별 성능을 평가한다.
+-   `icv_mrd.py`: 평탄한 영역의 균일성(ICV)과 디테일 영역의 상대 오차(MRD)를 계산하여 보정 성능을 종합적으로 평가한다.

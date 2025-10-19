@@ -110,4 +110,27 @@ MATLAB (성능 평가를 위해 필요)
 -   `DiffNufQe.m` 스크립트를 열어 평가하려는 노이즈 수준(`lmh_nuf`)과 방법(`method`)을 설정한 후 실행한다.
 -   평가 결과 지표(RMSE, PSNR, SSIM 등)가 Excel 파일로 저장되고 MATLAB 명령 창에 평균값이 출력된다.
 
+### 6. 성능 평가 (Python 버전)
+
+`QualityEvaluation_Python/` 폴더는 MATLAB 라이선스 없이 성능 평가를 수행할 수 있도록 `QualityEvaluation/`의 MATLAB 스크립트들을 Python으로 변환한 버전이다.
+
+-   **사전 요구사항**: `scikit-image`, `pandas`, `openpyxl` 라이브러리가 추가로 필요하다.
+    ```bash
+    pip install scikit-image pandas openpyxl
+    ```
+-   **실행 방법**: `QualityEvaluation_Python/` 디렉토리로 이동하여 `diff_nuf_qe.py`를 실행한다. 스크립트 내의 `base_path_arg`, `lmh_nuf_arg`, `method_arg` 변수를 자신의 환경에 맞게 수정한 후 실행할 수 있다.
+    ```bash
+    cd QualityEvaluation_Python
+    python diff_nuf_qe.py
+    ```
+
+#### Python 평가 스크립트 상세
+
+-   `diff_nuf_qe.py`: MATLAB의 `DiffNufQe.m`에 해당하는 메인 스크립트. 지정된 폴더의 모든 결과에 대해 아래의 모든 품질 지표를 일괄 계산하고 Excel 파일로 저장한다.
+-   `psnr.py`: 두 이미지 간의 PSNR(최대 신호 대 잡음비)과 RMSE(평균 제곱근 오차)를 계산한다.
+-   `coarseness.py`: 이미지의 거칠기(조잡도)를 계산하여 노이즈 수준을 평가한다.
+-   `ln.py`: 이미지의 저주파 비균일성을 평가한다.
+-   `scrg.py`: 특정 목표(target)와 주변 배경(clutter) 간의 SCR(신호 대 잡음비)을 계산하여 목표 식별 성능을 평가한다.
+-   `icv_mrd.py`: 평탄한 영역의 균일성(ICV)과 디테일 영역의 상대 오차(MRD)를 계산하여 보정 성능을 종합적으로 평가한다.
+
 ```
